@@ -1,0 +1,17 @@
+db.runCommand( {
+    mapReduce: "patients",
+    map: function(){
+    for (let index = 0; index < this.Paciente.length; ++index) {
+    let p1 = this.Paciente[ index ];
+    emit( p1.nombre + " " + p1.Apellido, 1 );
+    }
+    },
+    reduce: function(p1, counters){
+    count = 0;
+    for (let index = 0; index < counters.length; ++index) {
+    count += counters[index];
+    }
+    return count;
+    },
+    out: { inline: 1 }
+    } ) 
